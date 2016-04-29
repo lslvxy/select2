@@ -26,6 +26,7 @@ define([
 
   './dropdown',
   './dropdown/search',
+  './dropdown/footer',
   './dropdown/hidePlaceholder',
   './dropdown/infiniteScroll',
   './dropdown/attachBody',
@@ -35,22 +36,16 @@ define([
 
   './i18n/en'
 ], function ($, require,
-
              ResultsList,
-
              SingleSelection, MultipleSelection, Placeholder, AllowClear,
              SelectionSearch, EventRelay,
-
              Utils, Translation, DIACRITICS,
-
              SelectData, ArrayData, AjaxData, Tags, Tokenizer,
              MinimumInputLength, MaximumInputLength, MaximumSelectionLength,
-
-             Dropdown, DropdownSearch, HidePlaceholder, InfiniteScroll,
+             Dropdown, DropdownSearch, Footer, HidePlaceholder, InfiniteScroll,
              AttachBody, MinimumResultsForSearch, SelectOnClose, CloseOnSelect,
-
              EnglishTranslation) {
-  function Defaults () {
+  function Defaults() {
     this.reset();
   }
 
@@ -79,6 +74,7 @@ define([
           MaximumInputLength
         );
       }
+
 
       if (options.maximumSelectionLength > 0) {
         options.dataAdapter = Utils.Decorate(
@@ -162,6 +158,12 @@ define([
         options.dropdownAdapter = Utils.Decorate(
           options.dropdownAdapter,
           CloseOnSelect
+        );
+      }
+      if (options.footer) {
+        options.dropdownAdapter = Utils.Decorate(
+          options.dropdownAdapter,
+          Footer
         );
       }
 
@@ -297,7 +299,7 @@ define([
   };
 
   Defaults.prototype.reset = function () {
-    function stripDiacritics (text) {
+    function stripDiacritics(text) {
       // Used 'uni range + named function' from http://jsperf.com/diacritics/18
       function match(a) {
         return DIACRITICS[a] || a;
@@ -306,7 +308,7 @@ define([
       return text.replace(/[^\u0000-\u007E]/g, match);
     }
 
-    function matcher (params, data) {
+    function matcher(params, data) {
       // Always return the object if there is nothing to compare
       if ($.trim(params.term) === '') {
         return data;
@@ -364,6 +366,10 @@ define([
       maximumInputLength: 0,
       maximumSelectionLength: 0,
       minimumResultsForSearch: 0,
+      footer: false,
+      footerCallback: function () {
+        return false;
+      },
       selectOnClose: false,
       sorter: function (data) {
         return data;

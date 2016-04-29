@@ -1,50 +1,38 @@
+/**
+ * Created by lise on 2016/4/29.
+ */
 define([
   'jquery',
   '../utils'
 ], function ($, Utils) {
-  function Search () { }
+  function Footer() {
+  }
 
-  Search.prototype.render = function (decorated) {
+  Footer.prototype.render = function (decorated) {
     var $rendered = decorated.call(this);
 
     var $search = $(
-      '<span class="select2-search select2-search--dropdown">' +
-        '<input class="select2-search__field" type="search" tabindex="-1"' +
-        ' autocomplete="off" autocorrect="off" autocapitalize="off"' +
-        ' spellcheck="false" role="textbox" />' +
+      '<span class="select2-search select2-search--dropdown pull-right" style="cursor: pointer;">' +
+      '<i class="glyphicon glyphicon-plus">新增</i>' +
       '</span>'
     );
 
-    this.$searchContainer = $search;
-    this.$search = $search.find('input');
-
-    $rendered.prepend($search);
-
+    $rendered.append($search);
+    this.$search = $search;
     return $rendered;
   };
 
-  Search.prototype.bind = function (decorated, container, $container) {
+  Footer.prototype.bind = function (decorated, container, $container) {
     var self = this;
 
     decorated.call(this, container, $container);
 
-    this.$search.on('keydown', function (evt) {
-      self.trigger('keypress', evt);
-
+    this.$search.on('click', function (evt) {
+      self.trigger('click', evt);
       self._keyUpPrevented = evt.isDefaultPrevented();
+      self.options.options.footerCallback && self.options.options.footerCallback();
     });
 
-    // Workaround for browsers which do not support the `input` event
-    // This will prevent double-triggering of events for browsers which support
-    // both the `keyup` and `input` events.
-    this.$search.on('input', function (evt) {
-      // Unbind the duplicated `keyup` event
-      $(this).off('keyup');
-    });
-
-    this.$search.on('keyup input', function (evt) {
-      self.handleSearch(evt);
-    });
 
     container.on('open', function () {
       self.$search.attr('tabindex', 0);
@@ -75,7 +63,7 @@ define([
     });
   };
 
-  Search.prototype.handleSearch = function (evt) {
+  Footer.prototype.handleSearch = function (evt) {
     if (!this._keyUpPrevented) {
       var input = this.$search.val();
 
@@ -87,9 +75,9 @@ define([
     this._keyUpPrevented = false;
   };
 
-  Search.prototype.showSearch = function (_, params) {
+  Footer.prototype.showSearch = function (_, params) {
     return true;
   };
 
-  return Search;
+  return Footer;
 });

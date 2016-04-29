@@ -69,7 +69,7 @@ module.exports = function (grunt) {
     concat: {
       'dist': {
         options: {
-          banner: grunt.file.read('src/js/wrapper.start.js'),
+          banner: grunt.file.read('src/js/wrapper.start.js')
         },
         src: [
           'dist/js/select2.js',
@@ -79,7 +79,7 @@ module.exports = function (grunt) {
       },
       'dist.full': {
         options: {
-          banner: grunt.file.read('src/js/wrapper.start.js'),
+          banner: grunt.file.read('src/js/wrapper.start.js')
         },
         src: [
           'dist/js/select2.full.js',
@@ -339,7 +339,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-saucelabs');
   grunt.loadNpmTasks('grunt-sass');
 
-  grunt.registerTask('default', ['compile', 'test', 'minify']);
+  grunt.registerTask('default', ['compile', 'minify']);
 
   grunt.registerTask('compile', [
     'requirejs:dist', 'requirejs:dist.full', 'requirejs:i18n',

@@ -181,10 +181,6 @@ define([
       });
     });
 
-    this.$element.on('focus.select2', function (evt) {
-      self.trigger('focus', evt);
-    });
-
     this._sync = Utils.bind(this._syncAttributes, this);
 
     if (this.$element[0].attachEvent) {
