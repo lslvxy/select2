@@ -1,36 +1,44 @@
 define(function () {
-  // Chinese (Simplified)
+  // English
   return {
     errorLoading: function () {
-      return '无法载入结果。';
+      return 'The results could not be loaded.';
     },
     inputTooLong: function (args) {
       var overChars = args.input.length - args.maximum;
 
-      var message = '请删除' + overChars + '个字符';
+      var message = 'Please delete ' + overChars + ' character';
+
+      if (overChars != 1) {
+        message += 's';
+      }
 
       return message;
     },
     inputTooShort: function (args) {
       var remainingChars = args.minimum - args.input.length;
 
-      var message = '请再输入至少' + remainingChars + '个字符';
+      var message = 'Please enter ' + remainingChars + ' or more characters';
 
       return message;
     },
     loadingMore: function () {
-      return '载入更多结果…';
+      return 'Loading more results…';
     },
     maximumSelected: function (args) {
-      var message = '最多只能选择' + args.maximum + '个项目';
+      var message = 'You can only select ' + args.maximum + ' item';
+
+      if (args.maximum != 1) {
+        message += 's';
+      }
 
       return message;
     },
     noResults: function () {
-      return '未找到结果';
+      return 'No results found';
     },
     searching: function () {
-      return '搜索中…';
+      return 'Searching…';
     }
   };
 });

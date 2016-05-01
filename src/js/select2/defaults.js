@@ -365,7 +365,7 @@ define([
       minimumInputLength: 0,
       maximumInputLength: 0,
       maximumSelectionLength: 0,
-      minimumResultsForSearch: 0,
+      minimumResultsForSearch: 10,
       footer: false,
       footerCallback: function () {
         return false;

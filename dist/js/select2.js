@@ -3922,7 +3922,7 @@ S2.define('select2/dropdown/footer',[
     var $rendered = decorated.call(this);
 
     var $search = $(
-      '<span class="select2-search select2-search--dropdown pull-right" style="cursor: pointer;">' +
+      '<span class="select2-search select2-search--dropdown cui-btn pull-right" style="cursor: pointer;">' +
       '<i class="glyphicon glyphicon-plus">新增</i>' +
       '</span>'
     );
@@ -3939,56 +3939,9 @@ S2.define('select2/dropdown/footer',[
 
     this.$search.on('click', function (evt) {
       self.trigger('click', evt);
-      self._keyUpPrevented = evt.isDefaultPrevented();
       self.options.options.footerCallback && self.options.options.footerCallback();
     });
-
-
-    container.on('open', function () {
-      self.$search.attr('tabindex', 0);
-
-      self.$search.focus();
-
-      window.setTimeout(function () {
-        self.$search.focus();
-      }, 0);
-    });
-
-    container.on('close', function () {
-      self.$search.attr('tabindex', -1);
-
-      self.$search.val('');
-    });
-
-    container.on('results:all', function (params) {
-      if (params.query.term == null || params.query.term === '') {
-        var showSearch = self.showSearch(params);
-
-        if (showSearch) {
-          self.$searchContainer.removeClass('select2-search--hide');
-        } else {
-          self.$searchContainer.addClass('select2-search--hide');
-        }
-      }
-    });
-  };
-
-  Footer.prototype.handleSearch = function (evt) {
-    if (!this._keyUpPrevented) {
-      var input = this.$search.val();
-
-      this.trigger('query', {
-        term: input
-      });
-    }
-
-    this._keyUpPrevented = false;
-  };
-
-  Footer.prototype.showSearch = function (_, params) {
-    return true;
-  };
-
+ };
   return Footer;
 });
 
@@ -4462,46 +4415,38 @@ S2.define('select2/dropdown/closeOnSelect',[
 });
 
 S2.define('select2/i18n/en',[],function () {
-  // English
+  // Chinese (Simplified)
   return {
     errorLoading: function () {
-      return 'The results could not be loaded.';
+      return '无法载入结果。';
     },
     inputTooLong: function (args) {
       var overChars = args.input.length - args.maximum;
 
-      var message = 'Please delete ' + overChars + ' character';
-
-      if (overChars != 1) {
-        message += 's';
-      }
+      var message = '请删除' + overChars + '个字符';
 
       return message;
     },
     inputTooShort: function (args) {
       var remainingChars = args.minimum - args.input.length;
 
-      var message = 'Please enter ' + remainingChars + ' or more characters';
+      var message = '请再输入至少' + remainingChars + '个字符';
 
       return message;
     },
     loadingMore: function () {
-      return 'Loading more results…';
+      return '载入更多结果…';
     },
     maximumSelected: function (args) {
-      var message = 'You can only select ' + args.maximum + ' item';
-
-      if (args.maximum != 1) {
-        message += 's';
-      }
+      var message = '最多只能选择' + args.maximum + '个项目';
 
       return message;
     },
     noResults: function () {
-      return 'No results found';
+      return '未找到结果';
     },
     searching: function () {
-      return 'Searching…';
+      return '搜索中…';
     }
   };
 });
@@ -4874,7 +4819,7 @@ S2.define('select2/defaults',[
       maximumInputLength: 0,
       maximumSelectionLength: 0,
       minimumResultsForSearch: 0,
-      footer: true,
+      footer: false,
       footerCallback: function () {
         return false;
       },
